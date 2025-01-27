@@ -2,7 +2,8 @@
 ##Juan Alfredo Hernández-García
 
 
-    #1.- Bucle para Quality Control con **FASTQC**
+#1.- Bucle para Quality Control con **FASTQC**
+    
     #corremos el análisis de cada una de las muestras:
 
     for file in raw/*.fastq.gz; do
@@ -12,16 +13,16 @@
     cat raw/*.fastq.gz > all.fq.gz
     fastqc --nogroup -f fastq all.fq.gz
 
-2.- Realizamos el trimeado de las secuencias obtenidas
+#2.- Realizamos el trimeado de las secuencias obtenidas
 
-# Ejecutar Trimmomatic en todas las muestras
-# Crear un directorio para almacenar las lecturas filtradas
-mkdir -p ../02_trim
+    #Ejecutar Trimmomatic en todas las muestras
+    #Crear un directorio para almacenar las lecturas filtradas
+    mkdir -p ../02_trim
 
 
-# Ejecutar Trimmomatic en todas las muestras
-# Crear un directorio para almacenar las lecturas filtradas
-mkdir -p ../02_trim
+    # Ejecutar Trimmomatic en todas las muestras
+    # Crear un directorio para almacenar las lecturas filtradas
+    mkdir -p ../02_trim
 
 #se renombraron los archivos para poder correr el bucle de trimmomatic
 rename 's/_Custom_1/_R1/; s/_Custom_2/_R2/' *.fastq.gz
