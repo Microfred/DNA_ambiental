@@ -24,15 +24,16 @@ Juan Alfredo Hernández-García
     # Crear un directorio para almacenar las lecturas filtradas
     mkdir -p ../02_trim
 
-#se renombraron los archivos para poder correr el bucle de trimmomatic
-rename 's/_Custom_1/_R1/; s/_Custom_2/_R2/' *.fastq.gz
+    #se renombraron los archivos para poder correr el bucle de trimmomatic
+    rename 's/_Custom_1/_R1/; s/_Custom_2/_R2/' *.fastq.gz
 
-# Bucle para procesar cada par de lecturas (R1 y R2)
+    # Bucle para procesar cada par de lecturas (R1 y R2)
 
-## Crear un directorio para almacenar las lecturas filtradas
-mkdir -p ../02_trim
-out=../02_trim
-for r1 in *_R1.fastq.gz; do
+    #Crear un directorio para almacenar las lecturas filtradas
+    mkdir -p ../02_trim
+    out=../02_trim
+    for r1 in *_R1.fastq.gz; do
+    
     # Obtener el nombre del archivo R2 (reemplazando _R1 por _R2)
     r2=${r1/_R1/_R2}
 
@@ -60,13 +61,16 @@ verificamos la calidad de todos los archivos trimeados.
     fastqc --nogroup -f fastq 02_trim/all.fq.gz
 
 
-# Crear un directorio para guardar los resultados ensamblados
+Crear un directorio para guardar los resultados ensamblados
+
     mkdir -p 03_assembled
 
-# Lista de muestras (nombres base sin _R1 o _R2)
+Lista de muestras (nombres base sin _R1 o _R2)
+    
     samples=("B10" "B11" "B12" "B13" "B14" "B6" "B7" "B8" "B9")
 
-# Bucle para procesar cada muestra
+Bucle para procesar cada muestra
+
     ´for sample in "${samples[@]}"; do
     # Definir los archivos de entrada (R1 y R2)
     R1="02_trim/${sample}_1_R1_paired.fastq.gz"
@@ -82,16 +86,19 @@ verificamos la calidad de todos los archivos trimeados.
     echo "Procesada muestra: $sample"
     done
     echo "¡Proceso de ensamblaje completado!"
+    
 Filtrado por longitud y calidad con vsearch
-#vsearch para filtrar secuencias
-    mkdir -p 05_filtered
+    
+    vsearch para filtrar secuencias
+            mkdir -p 05_filtered
     for sample in B10 B11 B12 B13 B14 B6 B7 B8 B9; do
     vsearch --fastq_filter 03_assembled/${sample}_assembled.assembled.fastq \
             --fastq_maxee 1.0 \
             --fastq_minlen 200 \
             --fastq_maxlen 500 \
             --fastaout 05_filtered/${sample}_filtered.fasta
-    done
+            done
+            
 ## vsearch para dereplicar secuencias, para esto es necesario modifcar los headers
 # Directorio de salida
     mkdir -p 06_dereplicated
@@ -119,22 +126,24 @@ Filtrado por longitud y calidad con vsearch
     else
         echo "Error: El archivo $input_file no existe. Saltando muestra $sample."
     fi
-done
+    done
 
-echo "¡Proceso de dereplicación completado!"
+    echo "¡Proceso de dereplicación completado!"
 
-echo "¡Proceso de dereplicación completado!"
-done
-#5.- Clustering de OTUS
-#Clustering: Usar vsearch o usearch para agrupar secuencias en OTUs (Unidades Taxonómicas Operativas).
-# Crear el directorio de salida si no existe
-mkdir -p 07_otus
+    echo "¡Proceso de dereplicación completado!"
+    done
 
-# Lista de muestras
-samples=("B10" "B11" "B12" "B13" "B14" "B6" "B7" "B8" "B9")
+5.- Clustering de OTUS
+Clustering: Usar vsearch o usearch para agrupar secuencias en OTUs (Unidades Taxonómicas Operativas).
+Crear el directorio de salida si no existe
+
+    mkdir -p 07_otus
+
+    Lista de muestras
+    samples=("B10" "B11" "B12" "B13" "B14" "B6" "B7" "B8" "B9")
 
 # Bucle para procesar cada muestra
-for sample in "${samples[@]}"; do
+    for sample in "${samples[@]}"; do
     # Definir el archivo de entrada (secuencias dereplicadas)
     input_file="06_dereplicated/${sample}_dereplicated.fasta"
 
