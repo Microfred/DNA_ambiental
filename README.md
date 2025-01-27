@@ -1,5 +1,5 @@
-#DNA_ambiental
-##Juan Alfredo Hernández-García
+DNA_ambiental
+Juan Alfredo Hernández-García
 
 
 #1.- Bucle para Quality Control con **FASTQC**
