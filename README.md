@@ -1,16 +1,16 @@
-# DNA_ambiental
-#Juan Alfredo Hernández-García
+#DNA_ambiental
+##Juan Alfredo Hernández-García
 
 
-#1.- Bucle para Quality Control con **FASTQC**
-#corremos el análisis de cada una de las muestras:
+    #1.- Bucle para Quality Control con **FASTQC**
+    #corremos el análisis de cada una de las muestras:
 
-for file in raw/*.fastq.gz; do
+    for file in raw/*.fastq.gz; do
     fastqc -t 16 "$file" -o 01_qc/
-done
-#También podemos correr el análisis concatenando todas las secuencias
-cat raw/*.fastq.gz > all.fq.gz
-fastqc --nogroup -f fastq all.fq.gz
+    done
+    #También podemos correr el análisis concatenando todas las secuencias
+    cat raw/*.fastq.gz > all.fq.gz
+    fastqc --nogroup -f fastq all.fq.gz
 
 2.- Realizamos el trimeado de las secuencias obtenidas
 
