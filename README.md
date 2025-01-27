@@ -1,8 +1,8 @@
-DNA_ambiental
+#DNA_ambiental
 Juan Alfredo Hernández-García
 
 
-#1.- Bucle para Quality Control con **FASTQC**
+1.- Bucle para Quality Control con **FASTQC**
     
     #corremos el análisis de cada una de las muestras:
 
