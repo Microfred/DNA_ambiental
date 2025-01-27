@@ -52,8 +52,9 @@ for r1 in *_R1.fastq.gz; do
     else
         echo "¡Advertencia! No se encontró el archivo R2 para $r1"
     fi
-done
-#verificamos la calidad de los archivos trimeados
+    done
+
+verificamos la calidad de todos los archivos trimeados.
 
     cat 02_trim/*_paired.fastq.gz > 02_trim/all.fq.gz
     fastqc --nogroup -f fastq 02_trim/all.fq.gz
@@ -66,7 +67,7 @@ done
     samples=("B10" "B11" "B12" "B13" "B14" "B6" "B7" "B8" "B9")
 
 # Bucle para procesar cada muestra
-´for sample in "${samples[@]}"; do
+    ´for sample in "${samples[@]}"; do
     # Definir los archivos de entrada (R1 y R2)
     R1="02_trim/${sample}_1_R1_paired.fastq.gz"
     R2="02_trim/${sample}_1_R2_paired.fastq.gz"
@@ -81,8 +82,8 @@ done
     echo "Procesada muestra: $sample"
     done
     echo "¡Proceso de ensamblaje completado!"
-#Filtrado por longitud y calidad con vsearch
-#  vsearch para filtrar secuencias
+Filtrado por longitud y calidad con vsearch
+#vsearch para filtrar secuencias
     mkdir -p 05_filtered
     for sample in B10 B11 B12 B13 B14 B6 B7 B8 B9; do
     vsearch --fastq_filter 03_assembled/${sample}_assembled.assembled.fastq \
@@ -159,15 +160,16 @@ for sample in "${samples[@]}"; do
 
     echo "¡Proceso de clustering completado!"
 
-#08.- Asignación Taxonómica
-# Formatear la base de datos (solo necesitas hacer esto una vez)
+08.- Asignación Taxonómica
+Formatear la base de datos (solo necesitas hacer esto una vez)
 
     makeblastdb -in coi_metazoa.fasta -dbtype nucl -out coi_metazoa
 
-# Crear el directorio de salida si no existe
+Crear el directorio de salida si no existe
+    
     mkdir -p 08_taxonomy
-
-# Define la lista de archivos FASTA
+ 
+ Define la lista de archivos FASTA
 files=(
   "07_otus/B10_otus.fasta"
   "07_otus/B12_otus.fasta"
@@ -180,17 +182,15 @@ files=(
   "07_otus/B8_otus.fasta"
 )
 
-# Itera sobre cada archivo en la lista
+Itera sobre cada archivo en la lista
     for file in "${files[@]}"; do
-  # Extrae el nombre base del archivo sin la extensión
+  Extrae el nombre base del archivo sin la extensión
       base_name=$(basename "$file" .fasta)
 
-  # Define el archivo de salida para los resultados de BLAST
+  Define el archivo de salida para los resultados de BLAST
       output_file="08_taxonomy/blast_results_${base_name}.txt"
 
-  # Ejecuta el comando BLAST con la base de datos formateada
+   Ejecuta el comando BLAST con la base de datos formateada
       blastn -query "$file" -db coi_metazoa -out "$output_file" -outfmt 6
-
-  # Opcional: Imprime un mensaje para indicar que el archivo ha sido procesado
       echo "Procesado: $file -> $output_file"
     done
